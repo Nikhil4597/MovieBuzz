@@ -20,12 +20,17 @@ class MoviePreviewController: UIViewController {
 
     private let scrollView: UIScrollView = {
        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    private let containerView: UIView = {
-       let view = UIView()
+    private let containerView: UIStackView = {
+       let view = UIStackView()
+        view.axis = .vertical
+        view.distribution = .fill
+        view.alignment = .leading
+        view.spacing = Constant.spaceConstraint
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -52,6 +57,7 @@ class MoviePreviewController: UIViewController {
     private let releasedDateLabel: UILabel = {
        let label = UILabel()
         label.text = ""
+        label.numberOfLines = 0
         label.textColor = .black
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +70,7 @@ class MoviePreviewController: UIViewController {
         label.numberOfLines = 0
         label.textColor = .black
         label.textAlignment = .left
-        label.sizeToFit()
+        label.font = .systemFont(ofSize: 14, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -72,6 +78,7 @@ class MoviePreviewController: UIViewController {
     private let movieGenreLabel: UILabel = {
        let label = UILabel()
         label.text = ""
+        label.numberOfLines = 0
         label.textColor = .black
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -99,87 +106,38 @@ class MoviePreviewController: UIViewController {
         setupUI()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-//        scrollView.frame = view.bounds
+    // MARK: UI view constraints
+    private func scrollViewConstraints() {
+        let margins = view.layoutMarginsGuide
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constant.liteLeadingConstraint),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constant.liteLeadingConstraint),
+            scrollView.topAnchor.constraint(equalTo: margins.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
+        ])
     }
     
-    // MARK: UI view constraints
-    private func setupUIConstraints() {
-        // Scroll veiw constraints
-//        NSLayoutConstraint.activate([
-//            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Constant.liteLeadingConstraint),
-//            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Constant.liteLeadingConstraint),
-//            containerView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor),
-//            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
-//        ])
-        
-        // Poster image view constraints
+    private func containerViewConstraints() {
         NSLayoutConstraint.activate([
-            posterImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constant.leadingConstraint),
-            posterImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constant.leadingConstraint),
-            posterImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
-            posterImageView.heightAnchor.constraint(equalToConstant: 300),
-            posterImageView.widthAnchor.constraint(equalTo: view.widthAnchor)
-        ])
-        
-        // Movie title constraints
-        NSLayoutConstraint.activate([
-            movieTitleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constant.leadingConstraint),
-            movieTitleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constant.leadingConstraint),
-            movieTitleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: Constant.spaceConstraint),
-            movieTitleLabel.widthAnchor.constraint(equalTo: view.widthAnchor)
+            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
             
         ])
-        
-        // Movie plot constraints
+    }
+    
+    private func setupUIConstraints() {
+        // Poster image view constraints
         NSLayoutConstraint.activate([
-            moviePlotLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constant.leadingConstraint),
-            moviePlotLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constant.leadingConstraint),
-            moviePlotLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: Constant.spaceConstraint),
-            moviePlotLabel.widthAnchor.constraint(equalTo: view.widthAnchor)
-        ])
-        
-        // Release data constraints
-        NSLayoutConstraint.activate([
-            releasedDateLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constant.leadingConstraint),
-            releasedDateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constant.leadingConstraint),
-            releasedDateLabel.topAnchor.constraint(equalTo: moviePlotLabel.bottomAnchor, constant: Constant.spaceConstraint),
-        ])
-        
-        // Movie genre constrints
-        NSLayoutConstraint.activate([
-            movieGenreLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constant.leadingConstraint),
-            movieGenreLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constant.leadingConstraint),
-            movieGenreLabel.topAnchor.constraint(equalTo: releasedDateLabel.bottomAnchor, constant: Constant.spaceConstraint)
+            posterImageView.heightAnchor.constraint(equalToConstant: 300)
         ])
         
         // Rating button constraints
         NSLayoutConstraint.activate([
-            ratingButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constant.leadingConstraint),
-            ratingButton.topAnchor.constraint(equalTo: movieGenreLabel.bottomAnchor, constant: Constant.spaceConstraint),
             ratingButton.widthAnchor.constraint(equalToConstant: 100)
-        ])
-    }
-    
-    // MARK: - Container view constraints
-    private func containerViewConstraints() {
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-        ])
-    }
-    
-    // MARK: - Scroll view constraints
-    private func scrollViewConstraints() {
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
@@ -194,15 +152,13 @@ extension MoviePreviewController {
         containerViewConstraints()
         scrollViewConstraints()
         
-        let subviews = [posterImageView, movieTitleLabel, moviePlotLabel, releasedDateLabel,  movieGenreLabel]
+        let subviews = [posterImageView, movieTitleLabel, moviePlotLabel, releasedDateLabel,  movieGenreLabel, ratingButton]
         
         subviews.forEach({
-            containerView.addSubview($0)
+            containerView.addArrangedSubview($0)
         })
-        
-        view.addSubview(ratingButton)
+    
         ratingButtonAction()
-
         setupUIConstraints()
     }
     
