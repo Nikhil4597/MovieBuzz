@@ -20,6 +20,7 @@ class MoviePreviewController: UIViewController {
 
     private let scrollView: UIScrollView = {
        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
@@ -100,18 +101,18 @@ class MoviePreviewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.frame = view.bounds
+//        scrollView.frame = view.bounds
     }
     
     // MARK: UI view constraints
     private func setupUIConstraints() {
         // Scroll veiw constraints
-        NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Constant.liteLeadingConstraint),
-            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Constant.liteLeadingConstraint),
-            containerView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor),
-            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
-        ])
+//        NSLayoutConstraint.activate([
+//            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: Constant.liteLeadingConstraint),
+//            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -Constant.liteLeadingConstraint),
+//            containerView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor),
+//            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+//        ])
         
         // Poster image view constraints
         NSLayoutConstraint.activate([
@@ -160,6 +161,27 @@ class MoviePreviewController: UIViewController {
             ratingButton.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
+    
+    // MARK: - Container view constraints
+    private func containerViewConstraints() {
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+    }
+    
+    // MARK: - Scroll view constraints
+    private func scrollViewConstraints() {
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
 }
 
 // MARK: Private methods
@@ -168,6 +190,9 @@ extension MoviePreviewController {
         view.backgroundColor = .white
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
+        
+        containerViewConstraints()
+        scrollViewConstraints()
         
         let subviews = [posterImageView, movieTitleLabel, moviePlotLabel, releasedDateLabel,  movieGenreLabel]
         
