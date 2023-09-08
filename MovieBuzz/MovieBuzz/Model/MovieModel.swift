@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Movie: Codable, Equatable {
+/// Struct representing a movie model.
+struct MovieModel: Codable, Equatable, Comparable {
     let title: String
     let year: String
     let released: String
@@ -33,11 +34,16 @@ struct Movie: Codable, Equatable {
         case rating = "Ratings"
     }
     
-    static func == (lhs: Movie, rhs: Movie) -> Bool {
+    static func == (lhs: MovieModel, rhs: MovieModel) -> Bool {
+        lhs.title == rhs.title
+    }
+    
+    static func < (lhs: MovieModel, rhs: MovieModel) -> Bool {
         lhs.title < rhs.title
     }
 }
 
+/// Struct representing a rating with Codable conformance.
 struct Rating: Codable {
     let source: String
     let value: String

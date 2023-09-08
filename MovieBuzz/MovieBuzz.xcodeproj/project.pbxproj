@@ -19,8 +19,12 @@
 		565AE20C2A9FB40A006F62FD /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AE20B2A9FB40A006F62FD /* SearchResultsViewController.swift */; };
 		565AE20E2A9FB447006F62FD /* MovieTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AE20D2A9FB447006F62FD /* MovieTile.swift */; };
 		565AE2102A9FB4B4006F62FD /* MoviePreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AE20F2A9FB4B4006F62FD /* MoviePreviewController.swift */; };
+		5683FF362AAAE513002EAE0A /* SeachResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5683FF352AAAE513002EAE0A /* SeachResultViewModel.swift */; };
+		5683FF3A2AAAF55D002EAE0A /* ConfigureCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5683FF392AAAF55D002EAE0A /* ConfigureCells.swift */; };
+		5683FF3C2AAAF830002EAE0A /* SectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5683FF3B2AAAF830002EAE0A /* SectionType.swift */; };
+		5683FF3E2AAAFAF0002EAE0A /* ItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5683FF3D2AAAFAF0002EAE0A /* ItemType.swift */; };
 		56F9CE982AA065AC00C36CD7 /* DropDownCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F9CE972AA065AC00C36CD7 /* DropDownCellTableViewCell.swift */; };
-		56F9CE9A2AA06ED500C36CD7 /* TableSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F9CE992AA06ED500C36CD7 /* TableSectionModel.swift */; };
+		56F9CE9A2AA06ED500C36CD7 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F9CE992AA06ED500C36CD7 /* SectionModel.swift */; };
 		56F9CE9C2AA07B7E00C36CD7 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F9CE9B2AA07B7E00C36CD7 /* HeaderView.swift */; };
 		56F9CE9E2AA0FF6400C36CD7 /* FilteredMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F9CE9D2AA0FF6400C36CD7 /* FilteredMoviesViewController.swift */; };
 /* End PBXBuildFile section */
@@ -40,8 +44,12 @@
 		565AE20B2A9FB40A006F62FD /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		565AE20D2A9FB447006F62FD /* MovieTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTile.swift; sourceTree = "<group>"; };
 		565AE20F2A9FB4B4006F62FD /* MoviePreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePreviewController.swift; sourceTree = "<group>"; };
+		5683FF352AAAE513002EAE0A /* SeachResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeachResultViewModel.swift; sourceTree = "<group>"; };
+		5683FF392AAAF55D002EAE0A /* ConfigureCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureCells.swift; sourceTree = "<group>"; };
+		5683FF3B2AAAF830002EAE0A /* SectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionType.swift; sourceTree = "<group>"; };
+		5683FF3D2AAAFAF0002EAE0A /* ItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemType.swift; sourceTree = "<group>"; };
 		56F9CE972AA065AC00C36CD7 /* DropDownCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownCellTableViewCell.swift; sourceTree = "<group>"; };
-		56F9CE992AA06ED500C36CD7 /* TableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSectionModel.swift; sourceTree = "<group>"; };
+		56F9CE992AA06ED500C36CD7 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
 		56F9CE9B2AA07B7E00C36CD7 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		56F9CE9D2AA0FF6400C36CD7 /* FilteredMoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredMoviesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,7 +117,10 @@
 		565AE1FF2A9F9E4A006F62FD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5683FF3D2AAAFAF0002EAE0A /* ItemType.swift */,
 				565AE2002A9F9E5C006F62FD /* MovieModel.swift */,
+				5683FF3B2AAAF830002EAE0A /* SectionType.swift */,
+				56F9CE992AA06ED500C36CD7 /* SectionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -146,6 +157,7 @@
 				565AE20D2A9FB447006F62FD /* MovieTile.swift */,
 				56F9CE972AA065AC00C36CD7 /* DropDownCellTableViewCell.swift */,
 				56F9CE9B2AA07B7E00C36CD7 /* HeaderView.swift */,
+				5683FF392AAAF55D002EAE0A /* ConfigureCells.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -154,7 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				565AE1FA2A9F9CD9006F62FD /* MovieViewModel.swift */,
-				56F9CE992AA06ED500C36CD7 /* TableSectionModel.swift */,
+				5683FF352AAAE513002EAE0A /* SeachResultViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -251,16 +263,20 @@
 				56F9CE9E2AA0FF6400C36CD7 /* FilteredMoviesViewController.swift in Sources */,
 				565AE20E2A9FB447006F62FD /* MovieTile.swift in Sources */,
 				565AE2102A9FB4B4006F62FD /* MoviePreviewController.swift in Sources */,
+				5683FF3C2AAAF830002EAE0A /* SectionType.swift in Sources */,
 				565AE2012A9F9E5C006F62FD /* MovieModel.swift in Sources */,
+				5683FF362AAAE513002EAE0A /* SeachResultViewModel.swift in Sources */,
 				565AE1EA2A9F9B7F006F62FD /* MovieViewController.swift in Sources */,
 				565AE1FE2A9F9D8C006F62FD /* APIService.swift in Sources */,
 				565AE1E62A9F9B7F006F62FD /* AppDelegate.swift in Sources */,
 				565AE1E82A9F9B7F006F62FD /* SceneDelegate.swift in Sources */,
 				56F9CE9C2AA07B7E00C36CD7 /* HeaderView.swift in Sources */,
+				5683FF3A2AAAF55D002EAE0A /* ConfigureCells.swift in Sources */,
 				565AE20C2A9FB40A006F62FD /* SearchResultsViewController.swift in Sources */,
 				56F9CE982AA065AC00C36CD7 /* DropDownCellTableViewCell.swift in Sources */,
 				565AE1FB2A9F9CD9006F62FD /* MovieViewModel.swift in Sources */,
-				56F9CE9A2AA06ED500C36CD7 /* TableSectionModel.swift in Sources */,
+				56F9CE9A2AA06ED500C36CD7 /* SectionModel.swift in Sources */,
+				5683FF3E2AAAFAF0002EAE0A /* ItemType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

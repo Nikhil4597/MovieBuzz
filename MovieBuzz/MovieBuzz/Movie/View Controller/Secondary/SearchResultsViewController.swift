@@ -8,16 +8,18 @@
 import UIKit
 
 protocol SearchViewControllerDeleagte: AnyObject {
-    func movieTileSelected(movie: Movie)
+    func movieTileSelected(movie: MovieModel)
 }
 
 class SearchResultsViewController: UIViewController {
-    struct Constant {
+    enum Constant {
         static let cellHeight = 200.0
         static let numberOfSection = 1
     }
+    
     weak var delegate: SearchViewControllerDeleagte?
-    private var movies: [Movie]? = nil {
+
+    private var movies: [MovieModel]? = nil {
         didSet {
             DispatchQueue.main.async {[weak self] in
                 self?.searchTableView.reloadData()
@@ -55,7 +57,12 @@ extension SearchResultsViewController {
 
 // MARK: - Public methods
 extension SearchResultsViewController {
-    public func configure(movies: [Movie]) {
+    /**
+     * Configure the MovieTile view with movie data.
+     *
+     * - Parameter movie: The movie data to display.
+     */
+    public func configure(movies: [MovieModel]) {
         self.movies = movies
     }
 }

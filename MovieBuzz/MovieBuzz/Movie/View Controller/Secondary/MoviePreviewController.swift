@@ -8,14 +8,23 @@
 import UIKit
 
 class MoviePreviewController: UIViewController {
-    struct Constant {
-        static let liteLeadingConstraint = 5.0
-        static let leadingConstraint = 10.0
-        static let spaceConstraint = 15.0
-        
+    enum Constant {
+        /// Prefix
         static let releasedDatePrefix = "Release Date: "
         static let genrePrefix = "Genre: "
         static let viewRatingTitle = "View Rating"
+        
+        /// Labels
+        static let defaultLabel = ""
+        static let reviewButtonLabel = "View Review"
+        
+        /// Default image name
+        static let defaultImageName = "DefaultImage"
+        
+        /// Constraints
+        static let liteLeadingConstraint = 5.0
+        static let leadingConstraint = 10.0
+        static let spaceConstraint = 15.0
     }
 
     private let scrollView: UIScrollView = {
@@ -37,7 +46,7 @@ class MoviePreviewController: UIViewController {
     
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "DefaultImage")
+        imageView.image = UIImage(named: Constant.defaultImageName)
         imageView.contentMode = .scaleToFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -87,7 +96,7 @@ class MoviePreviewController: UIViewController {
     
     private let ratingButton: UIButton = {
        let button = UIButton()
-        button.setTitle("View Rating", for: .normal)
+        button.setTitle(Constant.reviewButtonLabel, for: .normal)
         button.backgroundColor = .systemBlue
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.titleLabel?.textColor = .white
@@ -161,38 +170,57 @@ extension MoviePreviewController {
         ratingButtonAction()
         setupUIConstraints()
     }
+    /**
+     * Add action on rating button.
+     *
+     */
     
     private func ratingButtonAction() {
         ratingButton.addTarget(self, action: #selector(viewRatingClicked), for: .touchUpInside)
     }
     
+    /**
+     * Configure the thumbnail image view using the provided image URL.
+     *
+     * - Parameter imageString: The URL string of the image to be loaded and displayed.
+     */
     private func configureImage(imageString: String) {
         guard let url = URL(string: imageString) else {
                   return
               }
 
-              if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
-                  posterImageView.image = cachedImage
+          if let cachedImage = imageCache.object(forKey: url.absoluteString as NSString) {
+              posterImageView.image = cachedImage
+              return
+          }
+
+          let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+              guard let data = data,
+                    let strongSelf = self,
+                    let image = UIImage(data: data) else {
                   return
               }
-                  let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-                      guard let data = data,
-                            let strongSelf = self,
-                            let image = UIImage(data: data) else {
-                          return
-                      }
 
-                      DispatchQueue.global().async {
-                          strongSelf.imageCache.setObject(image, forKey: url.absoluteString as NSString)
-                      }
-                      
-                      DispatchQueue.main.async {
-                          strongSelf.posterImageView.image = image
-                      }
-                  }
-              task.resume()
+              DispatchQueue.global().async {
+                  strongSelf.imageCache.setObject(image, forKey: url.absoluteString as NSString)
+              }
+              
+              DispatchQueue.main.async {
+                  strongSelf.posterImageView.image = image
+              }
+          }
+      task.resume()
     }
     
+    /**
+     * Configure the labels for displaying movie details.
+     *
+     * - Parameters:
+     *   - movieTitle: The title of the movie.
+     *   - moviePlot: The plot summary of the movie.
+     *   - releasedDate: The release date of the movie.
+     *   - movieGenre: The genre of the movie.
+     */
     private func configure(movieTitle: String, moviePlot: String, releasedDate: String, movieGenre: String) {
         movieTitleLabel.text = movieTitle
         moviePlotLabel.text = moviePlot
@@ -200,8 +228,11 @@ extension MoviePreviewController {
         movieGenreLabel.text = "\(Constant.genrePrefix) \(movieGenre)"
     }
     
+    /**
+     * Handle the click event for viewing movie ratings.
+     */
     @objc private func viewRatingClicked() {
-        var message = ""
+        var message = Constant.defaultLabel
         guard let rating = rating else {
             return
         }
@@ -222,7 +253,12 @@ extension MoviePreviewController {
 
 // MARK: Public methods
 extension MoviePreviewController {
-    public func configure(movie: Movie) {
+    /**
+     * Configure the MovieTile view with movie data.
+     *
+     * - Parameter movie: The movie data to display.
+     */
+    public func configure(movie: MovieModel) {
         configureImage(imageString: movie.poster)
         configure(movieTitle: movie.title, moviePlot: movie.plot, releasedDate: movie.released, movieGenre: movie.genre)
         rating = movie.rating

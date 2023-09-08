@@ -8,7 +8,7 @@
 import UIKit
 
 protocol HeaderViewDelegate: AnyObject {
-    func buttonTapped(sectionModel: TableSectionModel)
+    func buttonTapped(sectionModel: SectionModel)
 }
 
 class HeaderView: UITableViewHeaderFooterView {
@@ -16,15 +16,19 @@ class HeaderView: UITableViewHeaderFooterView {
     struct Constant {
         static let leadingConstraint = 10.0
         static let topConstraint = 10.0
+        
+        // Image name
+        static let arrowUp = "chevron.up"
+        static let arrowDown = "chevron.down"
     }
     
-    public var sectionModel: TableSectionModel? {
+    public var sectionModel: SectionModel? {
         didSet {
             if let opened = sectionModel?.opened,
                opened == true {
-                imageView.image = UIImage(systemName: "chevron.up")
+                collapseImageView.image = UIImage(systemName: Constant.arrowUp)
             } else{
-                imageView.image = UIImage(systemName: "chevron.down")
+                collapseImageView.image = UIImage(systemName: Constant.arrowDown)
             }
         }
     }
@@ -39,9 +43,9 @@ class HeaderView: UITableViewHeaderFooterView {
         return button
     }()
     
-    private let imageView: UIImageView = {
+    private let collapseImageView: UIImageView = {
        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "chevron.down")
+        imageView.image = UIImage(systemName: Constant.arrowUp)
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -51,7 +55,7 @@ class HeaderView: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        let subviews = [button, imageView]
+        let subviews = [button, collapseImageView]
 
         subviews.forEach({
             addSubview($0)
@@ -65,9 +69,9 @@ class HeaderView: UITableViewHeaderFooterView {
         
     }
     
-    // MAKR: - UI view constraints
+    // MARK: - UI view constraints
     private func setupUIConstraints() {
-        // label constraints
+        /// label constraints
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: topAnchor, constant: Constant.topConstraint),
             button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.topConstraint),
@@ -75,12 +79,12 @@ class HeaderView: UITableViewHeaderFooterView {
             button.widthAnchor.constraint(equalToConstant: 100)
         ])
         
-        // button constraints
+        /// button constraints
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor, constant: Constant.topConstraint),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.topConstraint),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constant.leadingConstraint),
-            imageView.widthAnchor.constraint(equalToConstant: 100)
+            collapseImageView.topAnchor.constraint(equalTo: topAnchor, constant: Constant.topConstraint),
+            collapseImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.topConstraint),
+            collapseImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constant.leadingConstraint),
+            collapseImageView.widthAnchor.constraint(equalToConstant: 100)
             
         ])
     }
@@ -97,6 +101,11 @@ extension HeaderView {
 
 // MARK: - Public methods
 extension HeaderView {
+    /**
+     * Configure the MovieTile view with movie title.
+     *
+     * - Parameter movie: The movie title to display.
+     */
     public func configure(title: String) {
         button.setTitle(title, for: .normal)
     }
